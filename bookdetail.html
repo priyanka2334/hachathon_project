@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <style>
+        /* Default styles */
+*{
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+.navbar1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
+}
+
+.navbar1 ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.navbar1 ul li {
+    margin: 0 15px;
+}
+
+.navbar1 ul li img {
+    height: 40px;
+}
+
+.navbar1 ul li a,
+.navbar1 ul li span {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.navbar1 ul li a:hover,
+.navbar1 ul li span:hover {
+    color: #ffa500;
+}
+.fa-user{
+    color:#fff;
+}
+.card-out {
+    cursor: pointer;
+}
+.book-details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding:  50px 20px ;
+    
+}
+.in-book{
+    width: 90%;
+    padding: 1%;
+    height: 550px;
+    border: 1px solid gray;
+    display: flex;
+    flex-wrap: wrap;
+    background: ghostwhite;
+    justify-content: space-between;
+}
+
+.book-details img {
+    min-width: 30%;
+    max-height: 90%;
+    border: 2px solid rgb(185, 183, 183);
+    margin-bottom: 20px;
+}
+.inf{
+    display: block;
+    padding: 5%;
+    width: 50%;
+}
+.book-details h2{
+    color: gray;
+}
+.book-details h3{
+    color: black;
+}
+.book-details p {
+    margin: 10px 0;
+    font-size: 1.4em;
+    color: darkgray;
+}
+
+/* Media query for iPhone 12 */
+@media (max-width: 440px) {
+    .book-details {
+        padding: 10px;
+    }
+
+    .book-details img {
+      max-width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <nav class="navbar1">
+        <ul>
+            <li><img src="https://e7.pngegg.com/pngimages/142/76/png-clipart-white-and-orange-book-logo-symbol-yellow-orange-logo-ibooks-orange-logo-thumbnail.png" alt="Logo"></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Members</a></li>
+            <li><a href="#">Services</a></li>
+        </ul>
+        <ul>
+            <li>
+                <i class="fa-regular fa-user"></i>
+                <span><a href="#">Login</a></span>
+            </li>
+            <li>
+                <span><a href="#">Register</a></span>
+            </li>
+        </ul>
+    </nav>
+    <div class="book-details">
+        <div class="in-book">
+            <img id="book-image" src="" alt="Book Cover">
+       <div class="inf">
+        <h1 id="book-title"></h1>
+        <h3 id="book-author"></h3>
+        <h2 id="book-price"></h2>
+        <p id="book-publication-date"></p>
+        <p id="book-genre"></p>
+        <p id="book-description"></p>
+
+       </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const bookDetails = JSON.parse(localStorage.getItem("bookDetails"));
+            
+            if (bookDetails) {
+                document.getElementById("book-image").src = bookDetails.cover_image;
+                document.getElementById("book-title").textContent = `Title of the Book :${bookDetails.title}`;
+                document.getElementById("book-author").textContent = `Auther :${bookDetails.author}`;
+                document.getElementById("book-publication-date").textContent = `Publication Date: ${bookDetails.publication_year}`;
+                document.getElementById("book-genre").textContent = `Genre: ${bookDetails.genre}`;
+                // document.getElementById("book-price").textContent = `Price : ${bookDetails.price}`;
+                document.getElementById("book-description").textContent = `About Book: ${bookDetails.description}`;
+            }
+        });
+    </script>
+</body>
+</html>

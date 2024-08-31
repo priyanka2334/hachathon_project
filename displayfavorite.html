@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favorites</title>
+  <link rel="stylesheet" href="index.css">
+  <!-- Add Font Awesome CSS -->
+  <script src="https://kit.fontawesome.com/20945cdd74.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <section class="main-container1">
+    <div class="wraper">
+      <h1>Favorites</h1>
+      <div class="insidewrap" id="displayall"></div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const getBookArray = JSON.parse(localStorage.getItem('favorites')) || [];
+
+      const displayAllContainer = document.getElementById('displayall');
+
+      const createBookCard = (book, index) => {
+        const cardOut = document.createElement("div");
+        cardOut.className = "card-out";
+        cardOut.setAttribute('data-index', index);
+        cardOut.innerHTML = `
+          <div class="card">
+            <div class='image'>
+              <img src="${book.cover_image}" alt="${book.title}">
+            </div>
+            <div class="item-info">
+              <div class="book-name">${book.title}</div>
+              <div class="author-name">${book.author}</div>
+              <p>${[...Array(5)].map((_, i) => `<i class="fa-solid fa-star ${i < 4 ? 'color' : 'col'}"></i>`).join('')}</p>
+              <div class="like-container">
+                <i class="fa fa-heart" style="color: red;"></i> <!-- Heart icon -->
+              </div>
+              <button class="view-details" data-index="${index}">View Details</button>
+            </div>
+          </div>
+        `;
+        displayAllContainer.appendChild(cardOut);
+
+        // Event listener for the heart icon
+        const heartIcon = cardOut.querySelector('.fa-heart');
+        heartIcon.addEventListener("click", () => {
+          // Remove book from favorites
+          const index = getBookArray.findIndex(favBook => favBook.id === book.id);
+          if (index !== -1) {
+            getBookArray.splice(index, 1);
+            localStorage.setItem('favorites', JSON.stringify(getBookArray));
+            cardOut.remove(); // Remove the card from the display
+          }
+        });
+
+        // Event listener for viewing details
+        const handleClick = () => {
+          const { cover_image, title, author, publication_year, genre, description } = book;
+          localStorage.setItem("bookDetails", JSON.stringify({ cover_image, title, author, publication_year, genre, description }));
+          window.location.href = "bookdetail.html";
+        };
+        const buttonElement = cardOut.querySelector('.view-details');
+        buttonElement.addEventListener("click", handleClick);
+      };
+
+      getBookArray.forEach((book, index) => createBookCard(book, index));
+    });
+  </script>
+</body>
+</html>
